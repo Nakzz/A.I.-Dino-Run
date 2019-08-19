@@ -8,7 +8,7 @@ const ASSETS_PUBLIC_PATH = '/assets';
 module.exports = {
   context: ASSETS_SOURCE_PATH,
   entry: {
-    nn: ['./nn.js'],
+    nn: ['./main.js'],
   },
   output: {
     path: ASSETS_BUILD_PATH,
@@ -26,7 +26,10 @@ module.exports = {
         enforce: 'pre',
         test: /\.jsx?$/,
         exclude: /node_modules|screen-capture/,
-        loader: 'eslint-loader'
+        loader: 'eslint-loader',
+        options: {
+          fix: true,
+        },
       },
       {
         test: /\.js$/,

@@ -7,8 +7,6 @@ import Horizon from './Horizon';
 import Trex, { checkForCollision } from './Trex';
 import TrexGroup from './TrexGroup';
 
-import showLastCost from '../main'
-
 /**
  * T-Rex runner.
  * @param {string} outerContainerId Outer containing element id.
@@ -20,20 +18,21 @@ export default class Runner {
   static generation = 0;
 
   static config = {
-    ACCELERATION: 0.001,
+    ACCELERATION: 0.1, // def: 001
     BG_CLOUD_SPEED: 0.2,
     CLEAR_TIME: 0,
     CLOUD_FREQUENCY: 0.5,
-    GAP_COEFFICIENT: 0.6,
-    GRAVITY: 0.6,
+    GAP_COEFFICIENT: 0.6, // def: 
+    GRAVITY: 0.6, 
     INITIAL_JUMP_VELOCITY: 12,
     MAX_CLOUDS: 6,
-    MAX_OBSTACLE_LENGTH: 3,
-    MAX_SPEED: 25,
+    MAX_OBSTACLE_LENGTH: 5, // def: 3
+    MAX_SPEED: 20,
     MIN_JUMP_HEIGHT: 35,
-    SPEED: 9,
+    SPEED: 10, // default 6
     SPEED_DROP_COEFFICIENT: 3,
     DINO_COUNT: 1,
+    // Events
     onReset: noop,
     onRunning: noop,
     onCrash: noop
@@ -401,8 +400,6 @@ export default class Runner {
     return !!this.raqId;
   }
 
-
-
   /**
    * Game over state.
    */
@@ -413,15 +410,11 @@ export default class Runner {
 
     this.tRexGroup.update(100, Trex.status.CRASHED);
 
-
     // Update the high score.
     if (this.distanceRan > this.highestScore) {
       this.highestScore = Math.ceil(this.distanceRan);
       this.distanceMeter.setHighScore(this.highestScore);
-    } 
-
-
-
+    }
 
     // Reset the time clock.
     this.time = getTimeStamp();
@@ -443,30 +436,14 @@ export default class Runner {
       this.tRexGroup.update(0, Trex.status.RUNNING);
       this.time = getTimeStamp();
       this.update();
+
+      console.log("Distance Ran",this.distanceRan)
     }
+    
   }
 
   restart() {
     if (!this.raqId) {
-
-
-
-      const stats = document.getElementById("table");
-        
-            const genNum = this.playCount
-            const score = this.distanceRan
-        
-            const row = stats.insertRow(1);
-            
-            const genCell = row.insertCell();
-            const genCelltext = document.createTextNode(genNum);
-            genCell.appendChild(genCelltext);
-        
-            const scoreCell = row.insertCell();
-            const scoreCellText = document.createTextNode(score);
-            scoreCell.appendChild(scoreCellText);
-
-
       this.playCount += 1;
       this.runningTime = 0;
       this.playing = true;
